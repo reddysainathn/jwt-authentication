@@ -3,9 +3,9 @@ const http = require('http');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const app = express();
-const router = require('./router');
+const router = require('./auth/router');
 const mongoose = require('mongoose');
-const User = require('./models/user');
+const User = require('./auth/models/user');
 const dbconfig = require('./config')['dev']['db'];
 
 app.use(morgan('combined'));
