@@ -23,10 +23,6 @@ const dbUrl = 'mongodb://'
 
 mongoose.connect(dbUrl);
 
-User.findOne({email: 'a'}, function(err, result) {
-	console.log(result);
-})
-
 var conn = mongoose.connection;             
  
 conn.on('error', console.error.bind(console, 'connection error:'));  

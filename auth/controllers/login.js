@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt-nodejs');
 const User = require('../models/user'); 
 
 module.exports = function(req, res, next) {
@@ -14,10 +15,13 @@ module.exports = function(req, res, next) {
 			return next(err);
 		}
 		if(existingUser) {
-			if(existingUser.password === password) {
-				res.send("loggen in");
-			}
-			res.send("Incorrect email or password");
+			bcrypt.compare(password, existingUser.password, function(err, result) {
+				if(result === true) {
+					res.send("loggen in");
+				} else {
+					res.send("Incorrect email or password");
+				}
+			})
 		}
 	})
 }
