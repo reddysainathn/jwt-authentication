@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt-nodejs');
-const User = require('../models/user'); 
+const User = require('../models/user');
+const jwtToken = require('../services/jwtToken');  
 
 module.exports = function(req, res, next) {
 	const email = req.body.email
@@ -15,9 +16,9 @@ module.exports = function(req, res, next) {
 			return next(err);
 		}
 		if(existingUser) {
-			bcrypt.compare(password, existingUser.password, function(err, result) {
-				if(result === true) {
-					res.send("loggen in");
+			bcrypt.compare(password, existingUser.password, function(err, isMatch) {
+				if(isMatch === true) {
+					res.json({token: jwtToken.createToken(existingUser.email)});
 				} else {
 					res.send("Incorrect email or password");
 				}

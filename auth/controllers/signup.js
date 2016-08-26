@@ -1,4 +1,5 @@
-const User = require('../models/user'); 
+const User = require('../models/user');
+const jwtToken = require('../services/jwtToken'); 
 
 module.exports = function(req, res, next) {
 	const email = req.body.email
@@ -24,7 +25,7 @@ module.exports = function(req, res, next) {
 			if(err) {
 				return next(err);
 			}
-			res.json(user);
+			res.json({token: jwtToken.createToken(user.email)});
 		})
 	})
 }
